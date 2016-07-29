@@ -7,11 +7,11 @@ function setCurrentToken(token) {
 }
 
 function isAuthenticated() {
-  return getCurrentToken() != null;
+  return getCurrentToken() !== null;
 }
 
 $(function() {
-  if (window.location.hash && window.navigator.standalone) {
+  if ((window.location.hash && window.navigator.standalone) || (window.location.hash && window.matchMedia('(display-mode: standalone)').matches)) {
     var id = window.location.hash.toString().replace('#', '');
 
     var url = 'fulcrumapp://new-record?form_id=' + id;
