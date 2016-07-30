@@ -38,7 +38,7 @@
   <p style="display:none;" id="desc">Add this URL to your homescreen.</p>
   </div>
   <script type="text/javascript">
-  if (window.navigator.standalone) {
+  if (window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches) {
     var link = document.getElementById('link');
     var ev = document.createEvent('MouseEvents');
     ev.initEvent('click', true, true, document.defaultView, 1, 0, 0, 0, 0, false, false, false, false, 0, null);

@@ -7,7 +7,7 @@ function setCurrentToken(token) {
 }
 
 function isAuthenticated() {
-  return getCurrentToken() != null;
+  return getCurrentToken() !== null;
 }
 
 $(function() {
