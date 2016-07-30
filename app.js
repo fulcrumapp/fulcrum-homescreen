@@ -11,23 +11,6 @@ function isAuthenticated() {
 }
 
 $(function() {
-  if (window.location.hash && window.navigator.standalone) {
-    var id = window.location.hash.toString().replace('#', '');
-
-    var url = 'fulcrumapp://new-record?form_id=' + id;
-
-    var e = document.getElementById('jump');
-
-    $(e).attr('href', url);
-
-    var ev = document.createEvent('MouseEvents');
-
-    ev.initEvent('click',true,true,document.defaultView,1,0,0,0,0,false,false,false,false,0,null);
-
-    setTimeout(function() { e.dispatchEvent(ev); }, 25);
-    return;
-  }
-
   if (isAuthenticated()) {
     $('.apps').show();
   } else {
@@ -37,9 +20,12 @@ $(function() {
   $('.login-button').click(login);
 });
 
-function login() {
+function login(event) {
+  event.preventDefault();
+
   var username = $("#email").val();
   var password = $("#password").val();
+
   $.ajax({
     type: "GET",
     url: "https://api.fulcrumapp.com/api/v2/users.json",
@@ -109,26 +95,6 @@ function populateForms(forms) {
 
   $('.orgs').hide();
   $('.apps').show();
-  $('.app').hide();
-  $('.login').hide();
-}
-
-function showForm(id, name, imageURL) {
-  var image = '';
-
-  if (imageURL) {
-    image = '<img src="' + imageURL + '" />';
-  }
-
-  var html = image + '<h1>' + name + '</h1>';
-
-  html += '<small>You can now add this app to your homescreen.</small>';
-
-  $('.app').html(html);
-
-  $('.orgs').hide();
-  $('.apps').hide();
-  $('.app').show();
   $('.login').hide();
 }
 
@@ -154,8 +120,11 @@ function selectOrganization(token) {
 }
 
 function selectApp(id, name, image) {
-  window.location.hash = id;
-  document.title = name;
-  $('link[rel="apple-touch-icon-precomposed"]').attr('href', image);
-  showForm(id, name, image);
+  var template = window.AppTemplate;
+
+  template = template.replace(/__TITLE__/g, name);
+  template = template.replace(/__ICON__/g, image);
+  template = template.replace(/__URL__/g, 'fulcrumapp://new-record?form_id=' + id);
+
+  window.location = 'data:text/html;base64,' + btoa(template);
 }

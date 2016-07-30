@@ -1,0 +1,51 @@
+<html>
+<head>
+  <title>__TITLE__</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon-precomposed" href="__ICON__">
+</head>
+<body>
+  <style type="text/css">
+  body, html {
+    margin: 0;
+    padding: 0;
+  }
+  img {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    left: 50%;
+    top: 50%;
+    margin-left: -125px;
+    margin-top: -125px;
+    border-radius: 30px;
+  }
+  #desc {
+    font-family: Sans-Serif;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: #444;
+  }
+  </style>
+  <a id="link" href="__URL__" style="display:none"></a>
+  <img src="__ICON__" />
+  <p style="display:none;" id="desc">Add this URL to your homescreen.</p>
+  </div>
+  <script type="text/javascript">
+  if (window.navigator.standalone) {
+    var link = document.getElementById('link');
+    var ev = document.createEvent('MouseEvents');
+    ev.initEvent('click', true, true, document.defaultView, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
+    setTimeout(function() { link.dispatchEvent(ev); }, 100);
+  } else {
+    document.getElementById('desc').style.display = '';
+  }
+  </script>
+</body>
+</html>
