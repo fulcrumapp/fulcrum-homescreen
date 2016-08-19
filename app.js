@@ -147,7 +147,7 @@ function getDataURI(url, callback) {
     var canvas = document.createElement('canvas');
     canvas.width = 250;
     canvas.height = 250;
-    canvas.getContext('2d').drawImage(this, 0, 0);
+    canvas.getContext('2d').drawImage(this, 0, 0, 250, 250);
 
     callback(canvas.toDataURL('image/png'));
   };
