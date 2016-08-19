@@ -131,7 +131,7 @@ function selectApp(id, name, image) {
   template = template.replace(/__ICON__/g, image);
   template = template.replace(/__URL__/g, 'fulcrumapp://new-record?form_id=' + id);
 
-  var imageLink = 'https://api.fulcrumapp.com/api/v2/forms/' + id + '/image_small?token=' + getCurrentToken();
+  var imageLink = 'https://api.fulcrumapp.com/api/v2/forms/' + id + '/image_small.png?token=' + getCurrentToken();
 
   getDataURI(imageLink, function(dataURI) {
     template = template.replace(/__ICONURI__/g, dataURI);
