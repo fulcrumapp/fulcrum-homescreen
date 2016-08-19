@@ -13,14 +13,17 @@
     margin: 0;
     padding: 0;
   }
-  img {
+  #container {
     position: absolute;
     width: 250px;
-    height: 250px;
+    height: 350px;
     left: 50%;
     top: 50%;
     margin-left: -125px;
     margin-top: -125px;
+    text-align: center;
+  }
+  img {
     border-radius: 30px;
   }
   #desc {
@@ -32,17 +35,29 @@
     text-align: center;
     color: #444;
   }
+  #app-name {
+    font-family: Sans-Serif;
+    margin-top: 20px;
+    text-align: center;
+    color: #444;
+    font-size: 32px;
+  }
   </style>
   <a id="link" href="__URL__" style="display:none"></a>
-  <img src="__ICON__" />
+  <div id="container">
+    <img src="__ICONURI__" />
+    <p id="app-name">__NAME__</p>
+  </div>
   <p style="display:none;" id="desc">Add this URL to your homescreen.</p>
   </div>
   <script type="text/javascript">
+  document.title = "__NAME__";
   if (window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches) {
+    document.getElementById('app-name').style.display = '';
     var link = document.getElementById('link');
     var ev = document.createEvent('MouseEvents');
     ev.initEvent('click', true, true, document.defaultView, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
-    setTimeout(function() { link.dispatchEvent(ev); }, 100);
+    setTimeout(function() { link.dispatchEvent(ev); }, 700);
   } else {
     document.getElementById('desc').style.display = '';
   }

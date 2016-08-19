@@ -1,8 +1,12 @@
+var API_TOKEN = null;
+
 function getCurrentToken() {
-  return localStorage.getItem('token');
+  return API_TOKEN;
+  // return localStorage.getItem('token');
 }
 
 function setCurrentToken(token) {
+  API_TOKEN = token;
   // localStorage.setItem('token', token)
 }
 
@@ -123,8 +127,30 @@ function selectApp(id, name, image) {
   var template = window.AppTemplate;
 
   template = template.replace(/__TITLE__/g, name);
+  template = template.replace(/__NAME__/g, name);
   template = template.replace(/__ICON__/g, image);
   template = template.replace(/__URL__/g, 'fulcrumapp://new-record?form_id=' + id);
 
-  window.location = 'data:text/html;base64,' + btoa(template);
+  var imageLink = 'https://api.fulcrumapp.com/api/v2/forms/' + id + '/image_small?token=' + getCurrentToken();
+
+  getDataURI(imageLink, function(dataURI) {
+    template = template.replace(/__ICONURI__/g, dataURI);
+    window.location = 'data:text/html;base64,' + btoa(template);
+  });
+}
+
+function getDataURI(url, callback) {
+  var image = new Image();
+
+  image.crossOrigin = "Anonymous";
+  image.onload = function () {
+    var canvas = document.createElement('canvas');
+    canvas.width = 250;
+    canvas.height = 250;
+    canvas.getContext('2d').drawImage(this, 0, 0);
+
+    callback(canvas.toDataURL('image/png'));
+  };
+
+  image.src = url;
 }
