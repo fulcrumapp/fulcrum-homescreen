@@ -14,14 +14,36 @@ function isAuthenticated() {
   return getCurrentToken() !== null;
 }
 
-$(function() {
-  if (isAuthenticated()) {
-    $('.apps').show();
-  } else {
-    $('.login').show();
-  }
+function getParameterByName(name, url) {
+  if (!url) url = window.location.href;
+  name = name.replace(/[\[\]]/g, "\\$&");
+  var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+      results = regex.exec(url);
+  if (!results) return null;
+  if (!results[2]) return '';
+  return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
 
-  $('.login-button').click(login);
+$(function() {
+  var id = getParameterByName('form_id');
+  var name = getParameterByName('name');
+  var image = getParameterByName('image');
+
+  console.log(id, name, image);
+
+  if (id && name && image) {
+    var imageLink = 'https://crossorigin.me/' + image;
+
+    selectApp(id, name, imageLink)
+  } else {
+    if (isAuthenticated()) {
+      $('.apps').show();
+    } else {
+      $('.login').show();
+    }
+
+    $('.login-button').click(login);
+  }
 });
 
 function login(event) {
@@ -93,7 +115,11 @@ function populateForms(forms) {
   $('.apps a').click(function(event) {
     var target = $(event.currentTarget);
 
-    selectApp(target.data('id'), target.data('name'), target.data('image'));
+    var id = target.data('id');
+    var imageLink = 'https://api.fulcrumapp.com/api/v2/forms/' + id + '/image_large.png?token=' + getCurrentToken();
+
+    selectApp(target.data('id'), target.data('name'), imageLink);
+
     event.preventDefault();
   });
 
@@ -123,17 +149,15 @@ function selectOrganization(token) {
   });
 }
 
-function selectApp(id, name, image) {
+function selectApp(id, name, imageURL) {
   var template = window.AppTemplate;
 
   template = template.replace(/__TITLE__/g, name);
   template = template.replace(/__NAME__/g, name);
-  template = template.replace(/__ICON__/g, image);
+  template = template.replace(/__ICON__/g, imageURL);
   template = template.replace(/__URL__/g, 'fulcrumapp://new-record?form_id=' + id);
 
-  var imageLink = 'https://api.fulcrumapp.com/api/v2/forms/' + id + '/image_large.png?token=' + getCurrentToken();
-
-  getDataURI(imageLink, function(dataURI) {
+  getDataURI(imageURL, function(dataURI) {
     template = template.replace(/__ICONURI__/g, dataURI);
     window.location = 'data:text/html;base64,' + btoa(template);
   });
@@ -154,3 +178,5 @@ function getDataURI(url, callback) {
 
   image.src = url;
 }
+
+getParameterByName
