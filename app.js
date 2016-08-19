@@ -145,9 +145,9 @@ function getDataURI(url, callback) {
   image.crossOrigin = "Anonymous";
   image.onload = function () {
     var canvas = document.createElement('canvas');
-    canvas.width = 250;
-    canvas.height = 250;
-    canvas.getContext('2d').drawImage(this, 0, 0, 250, 250);
+    canvas.width = 500;
+    canvas.height = 500;
+    canvas.getContext('2d').drawImage(this, 0, 0, 500, 500);
 
     callback(canvas.toDataURL('image/png'));
   };
