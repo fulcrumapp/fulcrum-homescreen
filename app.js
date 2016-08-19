@@ -173,7 +173,7 @@ function getDataURI(url, callback) {
     canvas.height = 500;
     canvas.getContext('2d').drawImage(this, 0, 0, 500, 500);
 
-    callback(canvas.toDataURL('image/png'));
+    callback(canvas.toDataURL('image/jpeg'));
   };
 
   image.src = url;
