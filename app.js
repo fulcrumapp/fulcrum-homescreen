@@ -178,5 +178,3 @@ function getDataURI(url, callback) {
 
   image.src = url;
 }
-
-getParameterByName
