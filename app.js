@@ -32,7 +32,7 @@ $(function() {
   console.log(id, name, image);
 
   if (id && name && image) {
-    var imageLink = 'https://crossorigin.me/' + image;
+    var imageLink = 'https://cors-anywhere.herokuapp.com/' + image;
 
     selectApp(id, name, imageLink)
   } else {
